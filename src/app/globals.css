@@ -1,35 +1,99 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-charcoal: #121212;
-  --color-charcoal-light: #1e1e1e;
-  --color-charcoal-lighter: #2d2d2d;
+  --color-charcoal: #07080c;
+  --color-charcoal-light: #11131a;
+  --color-charcoal-lighter: #1e2230;
   --color-gold: #d4af37;
-  --color-gold-light: #f3d05a;
+  --color-gold-light: #f5d76e;
+  --color-gold-dark: #aa861e;
   
-  --font-poppins: var(--font-poppins), sans-serif;
-  --font-inter: var(--font-inter), sans-serif;
+  --font-poppins: var(--font-poppins), system-ui, sans-serif;
+  --font-inter: var(--font-inter), system-ui, sans-serif;
+}
+
+:root {
+  --bg-primary: #07080c;
+  --bg-secondary: #11131a;
+  --bg-tertiary: #1e2230;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --card-bg: #11131a;
+}
+
+html.light {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --card-bg: #ffffff;
 }
 
 body {
-  background-color: var(--color-charcoal);
-  color: #ededed;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-inter);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-charcoal);
+  background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-charcoal-lighter);
-  border-radius: 4px;
+  background: #272a38;
+  border-radius: 9999px;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-gold);
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  background: rgba(17, 19, 26, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+html.light .glass-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Glow effects */
+.gold-glow {
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
+}
+
+.gold-text-glow {
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
 }
