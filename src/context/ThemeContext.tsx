@@ -15,9 +15,32 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("shankar_theme") as Theme | null;
-    if (savedTheme === "light" || savedTheme === "dark") {
-      setTheme(savedTheme);
+    try {
+      const savedTheme = localStorage.getItem("shankar_theme") as Theme | null;
+      const isManual = localStorage.getItem("shankar_theme_manual") === "true";
+
+      if (isManual && (savedTheme === "light" || savedTheme === "dark")) {
+        setTheme(savedTheme);
+      } else {
+        // Automatically default based on user's system preferences
+        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setTheme(systemPrefersDark ? "dark" : "light");
+      }
+
+      // Live listen to system theme changes if user hasn't explicitly chosen manually
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleSystemChange = (e: MediaQueryListEvent) => {
+        const manual = localStorage.getItem("shankar_theme_manual") === "true";
+        if (!manual) {
+          setTheme(e.matches ? "dark" : "light");
+        }
+      };
+
+      mediaQuery.addEventListener("change", handleSystemChange);
+      return () => mediaQuery.removeEventListener("change", handleSystemChange);
+    } catch {
+      // fallback to dark
+      setTheme("dark");
     }
   }, []);
 
@@ -30,11 +53,24 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       root.classList.remove("dark");
       root.classList.add("light");
     }
-    localStorage.setItem("shankar_theme", theme);
+    try {
+      localStorage.setItem("shankar_theme", theme);
+    } catch {
+      // ignore
+    }
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+    setTheme((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      try {
+        localStorage.setItem("shankar_theme_manual", "true");
+        localStorage.setItem("shankar_theme", next);
+      } catch {
+        // ignore
+      }
+      return next;
+    });
   };
 
   return (

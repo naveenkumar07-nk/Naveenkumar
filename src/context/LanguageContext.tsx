@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { dictionaries } from "../locales";
 
 type Language = "en" | "ta";
@@ -14,7 +14,36 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Language>("ta");
+  const [lang, setLangState] = useState<Language>("en");
+
+  useEffect(() => {
+    try {
+      const savedLang = localStorage.getItem("shankar_lang") as Language | null;
+      if (savedLang === "en" || savedLang === "ta") {
+        setLangState(savedLang);
+        return;
+      }
+
+      // Check system / browser language
+      const systemLanguages = (typeof navigator !== "undefined" && navigator.languages) ? navigator.languages : [navigator.language || "en"];
+      const isTamil = systemLanguages.some(
+        (l) => typeof l === "string" && l.toLowerCase().startsWith("ta")
+      );
+
+      setLangState(isTamil ? "ta" : "en");
+    } catch {
+      setLangState("en");
+    }
+  }, []);
+
+  const setLang = (newLang: Language) => {
+    setLangState(newLang);
+    try {
+      localStorage.setItem("shankar_lang", newLang);
+    } catch {
+      // ignore
+    }
+  };
 
   const dict = dictionaries[lang];
 
