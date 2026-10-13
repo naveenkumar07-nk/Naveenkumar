@@ -26,6 +26,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: dict.nav.home, href: "#" },
+    { name: dict.nav.offers, href: "#special-offers" },
     { name: dict.nav.fleet, href: "#fleet" },
     { name: dict.nav.journeys, href: "#journeys" },
     { name: dict.nav.about, href: "#about" },

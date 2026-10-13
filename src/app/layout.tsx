@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Poppins, Inter } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import MobileBottomBar from "@/components/layout/MobileBottomBar";
+import FloatingWhatsApp from "@/components/ui/FloatingWhatsApp";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { OffersProvider } from "@/context/OffersContext";
 import { ThemeProvider } from "@/context/ThemeContext";
@@ -51,6 +52,7 @@ export default function RootLayout({
             <LanguageProvider>
               <Navbar />
               {children}
+              <FloatingWhatsApp />
               <MobileBottomBar />
             </LanguageProvider>
           </OffersProvider>

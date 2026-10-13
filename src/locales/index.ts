@@ -2,6 +2,7 @@ export const dictionaries = {
   en: {
     nav: {
       home: "Home",
+      offers: "Offers",
       fleet: "Fleet",
       journeys: "Journeys",
       about: "About",
@@ -90,6 +91,7 @@ export const dictionaries = {
   ta: {
     nav: {
       home: "முகப்பு",
+      offers: "சலுகைகள்",
       fleet: "வாகனங்கள்",
       journeys: "பயணங்கள்",
       about: "எங்களைப் பற்றி",
